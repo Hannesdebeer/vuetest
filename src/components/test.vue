@@ -1,56 +1,44 @@
 <template>
+
   <div class="test">
+    {{getCenter()}}
+    {{greet()}}
 
-     <div class="poop">
+    <div v-for="(user, index) in postData" v-if="user.rating >= 8" class="member-container">
+    <!-- <div v-repeat="(user, index) in postData" class="member-container"> -->
+      <!-- <div class="image-container"><img :src="user.image" width="80px" /></div> -->
+      <div class="name-container">{{user.first_name}} - {{index}}  </div>
+      <div class="tag-container">{{user.tagline}}</div>
+      <!-- <div class="city-container">{{user.first_name}}  |  {{user.city}}   |   {{user.country}}</div> -->
+      <div class="city-container"> {{centers[index]}} </div>
+      <div class="poop">
 
-       <gmap-map
-         :center="{lat:10, lng:10}"
-         :zoom="7"
-         map-type-id="terrain"
-         style="width: 300px; height: 300px;"
-       ></gmap-map>
-
+        <gmap-map v-bind:center="RenderMap(index)" :zoom="5" style="width: 400px; height: 300px" >
+          <gmap-marker
+          v-for="m in markers"
+          :position="m.position"
+          :clickable="true"
+          :draggable="true"
+          @click="center=m.position"
+          ></gmap-marker>
+        </gmap-map>
+      </div>
 
     </div>
 
-
-
-    <div v-for="user in postData" v-if="user.rating >= 9" class="member-container">
-    <div class="image-container"><img :src="user.image" width="80px" /></div>
-    <div class="name-container">{{user.first_name}}</div>
-    <div class="tag-container">{{user.tagline}}</div>
-    <div class="city-container">{{user.rating}}  |  {{user.city}}   |   {{user.country}}</div>
-
-
-
   </div>
-
-
-</div>
 </template>
 
 <script>
 
 import postData from '../assets/dummy_data.json' ;
-import * as VueGoogleMaps from '../../node_modules/vue2-google-maps';
-import Vue from '../../node_modules/vue';
-
-Vue.use(VueGoogleMaps, {
-
-  load: {
-    key: 'AIzaSyDmLSf7Pg6pIXen6-ZFBmvUM28atQqu2y0',
-    v: '3.26',
-    // libraries: 'places', //// If you need to use place input
-  }
-});
-
 
 export default {
   // vars goes here
   data(){
     return{
-      postData,
-      center: {lat: 10.0, lng: 10.0},
+      postData:{users:[]},
+      centers:[],
       markers: [{
         position: {lat: 10.0, lng: 10.0}
       }, {
@@ -60,21 +48,51 @@ export default {
     }
   },
   methods: {
-    greet: function(greeting){
-      alert(greeting);
+    greet: function(){
+      console.log("poop")
+    },
+
+    getCenter: function(){
+      var i;
+      for (i = 0; i < this.postData.length ; i++) {
+
+        this.centers[i] = '{"lat": ' + this.postData[i].latitude + ', "lng": ' + this.postData[i].longitude + '}';
+        this.centers[i] = this.centers[i];
+        // console.log(this.postData[i].first_name + ' ' +  i);
+      }
+    },
+
+
+    RenderMap : function(index){
+      // console.console.log(this.centers[index]);
+      // return this.centers[index];
+
+      var latlong = this.centers[index];
+      //latlong = JSON.stringify(latlong);
+      latlong = JSON.parse(latlong);
+      var latlongString = JSON.stringify(latlong);
+      console.log(latlongString + " " + index);
+      //latlong = JSON.parse({lat: 18.68703, lng: 98.91939}) ;
+
+      return latlong ;
+      //return {lat: 18.68703, lng: 98.91939};
+
+
     }
-  },
-  watch: {
-  '$route'(to, from) {
-    // Call resizePreserveCenter() on all maps
-    Vue.$gmapDefaultResizeBus.$emit('resize')
+
   }
-}
+
+
 }
 
-console.log(VueGoogleMaps);
+
+
 
 </script>
+
+
+
+
 
 <style scoped>
 
@@ -88,7 +106,8 @@ console.log(VueGoogleMaps);
 
 }
 .member-container{
-  -webkit-transition: height 2s; /* For Safari 3.1 to 6.0 */
+
+  -webkit-transition: height 5s; /* For Safari 3.1 to 6.0 */
   transition: height 2s;
   text-align: left;
   position: relative;
@@ -106,7 +125,7 @@ console.log(VueGoogleMaps);
 
 .member-container:hover{
 
-  height:300px;
+  height:500px;
 }
 
 .image-container{
@@ -170,7 +189,6 @@ console.log(VueGoogleMaps);
 
 .poop{
   display: block;
-  position: relative;
   margin-top: 10px;
   float: left;
   width:300px;

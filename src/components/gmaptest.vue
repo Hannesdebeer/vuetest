@@ -1,26 +1,25 @@
 <template>
 <div class="map">
-  <gmap-map
+  <gmap-Map
     :center="center"
     :zoom="7"
     style="width: 500px; height: 300px"
   >
-    <gmap-marker
+    <gmap-Marker
       v-for="m in markers"
       :position="m.position"
       :clickable="true"
       :draggable="true"
       @click="center=m.position"
-    ></gmap-marker>
-  </gmap-map>
+    ></gmap-Marker>
+  </gmap-Map>
 </div>
 </template>
 
 <script>
 
 import postData from '../assets/dummy_data.json' ;
-import * as VueGoogleMaps from '../../node_modules/vue2-google-maps';
-import Vue from '../../node_modules/vue';
+
 
   export default {
     data () {
@@ -32,20 +31,8 @@ import Vue from '../../node_modules/vue';
           position: {lat: 11.0, lng: 11.0}
         }]
       }
-    },
-    components:{
-      VueGoogleMaps
     }
   }
-
-
-  Vue.use(VueGoogleMaps, {
-      load: {
-        key: 'YOUR_API_TOKEN',
-        v: 'OPTIONAL VERSION NUMBER',
-        // libraries: 'places', //// If you need to use place input
-      }
-    });
 
 
 console.log(VueGoogleMaps);
@@ -58,6 +45,7 @@ console.log(VueGoogleMaps);
   width:100%;
   height: 600px;
   display: block;
+  border: 1px;
 
 }
 </style>

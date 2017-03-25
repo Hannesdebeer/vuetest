@@ -1,20 +1,17 @@
 <template>
   <div id="app">
-    <!-- <test></test> -->
-    <gmaptest></gmaptest>
+    <test></test>
   </div>
 </template>
 
 <script>
 
 import test from './components/test'
-import gmaptest from './components/gmaptest'
 
 export default {
   name: 'app',
   components: {
-    test,
-    gmaptest
+    test
   }
 }
 </script>
