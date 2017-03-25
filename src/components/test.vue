@@ -4,16 +4,16 @@
     {{getCenter()}}
     {{greet()}}
 
-    <div v-for="(user, index) in postData" v-if="user.rating >= 8" class="member-container">
+    <div v-for="(user, index) in filterItems(postData,name) | filterBy 'Female' in 'gender' | orderBy 'first_name' " v-if="user.rating >= 0" class="member-container">
     <!-- <div v-repeat="(user, index) in postData" class="member-container"> -->
       <!-- <div class="image-container"><img :src="user.image" width="80px" /></div> -->
-      <div class="name-container">{{user.first_name}} - {{index}}  </div>
+      <div class="name-container">{{user.first_name}} - {{user.last_name}} - {{user.id}} </div>
       <div class="tag-container">{{user.tagline}}</div>
       <!-- <div class="city-container">{{user.first_name}}  |  {{user.city}}   |   {{user.country}}</div> -->
       <div class="city-container"> {{centers[index]}} </div>
       <div class="poop">
 
-        <gmap-map v-bind:center="RenderMap(index)" :zoom="5" style="width: 400px; height: 300px" >
+        <gmap-map :center="RenderMap(index)" :zoom="5" style="width: 400px; height: 300px" >
           <gmap-marker
           v-for="m in markers"
           :position="m.position"
@@ -26,6 +26,7 @@
 
     </div>
 
+
   </div>
 </template>
 
@@ -37,7 +38,8 @@ export default {
   // vars goes here
   data(){
     return{
-      postData:{users:[]},
+      name: "Mark",
+      postData: postData,
       centers:[],
       markers: [{
         position: {lat: 10.0, lng: 10.0}
@@ -48,6 +50,19 @@ export default {
     }
   },
   methods: {
+    filterItems: function(users,name) {
+      return users.filter(function(user) {
+        if (user.first_name == name){
+          return user.first_name;
+        }
+        else if (name == "")
+        {
+          return user.first_name ;
+        }
+      })
+    },
+
+
     greet: function(){
       console.log("poop")
     },
@@ -58,14 +73,10 @@ export default {
 
         this.centers[i] = '{"lat": ' + this.postData[i].latitude + ', "lng": ' + this.postData[i].longitude + '}';
         this.centers[i] = this.centers[i];
-        // console.log(this.postData[i].first_name + ' ' +  i);
+
       }
     },
-
-
     RenderMap : function(index){
-      // console.console.log(this.centers[index]);
-      // return this.centers[index];
 
       var latlong = this.centers[index];
       //latlong = JSON.stringify(latlong);
@@ -79,10 +90,7 @@ export default {
 
 
     }
-
   }
-
-
 }
 
 
@@ -194,5 +202,9 @@ export default {
   width:300px;
   height:300px;
   /*background-color: blue;*/
+}
+
+.header{
+
 }
 </style>
