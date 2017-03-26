@@ -1,11 +1,14 @@
 <template>
 
+
+<!-- <div class="header"> < BD APPLICATION > </div> -->
+
   <div class="test">
     {{getCenter()}}
     {{greet()}}
     <!-- {{filterData}} -->
 
-    <div class="header"> < BD APPLICATION > </div>
+    <!-- <div class="header"> < BD APPLICATION > </div> -->
 
     <div class="interface-container">
 
@@ -162,7 +165,7 @@ export default {
 
 <style scoped>
 
-.header{
+/*.header{
   width: 100% ;
   height:40px;
   background-color: rgba(0,142,198,1);
@@ -172,7 +175,7 @@ export default {
   color: #fff ;
   line-height: 40px;
 
-}
+}*/
 
 .item1{
   order: 1 ;

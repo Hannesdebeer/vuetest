@@ -7,7 +7,7 @@ import App from './App' ;
 
 var _ = require('lodash');
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false ;
 
 /* eslint-disable no-new */
 

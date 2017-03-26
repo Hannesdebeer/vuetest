@@ -1,22 +1,28 @@
 <template>
   <div id="app">
+    <header></header>
     <test></test>
   </div>
 </template>
 
 <script>
 
-import test from './components/test'
+import header from './components/header';
+import test from './components/test';
+
+
 
 export default {
   name: 'app',
   components: {
+    header,
     test
   }
 }
 </script>
 
 <style>
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
