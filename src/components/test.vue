@@ -3,31 +3,65 @@
   <div class="test">
     {{getCenter()}}
     {{greet()}}
+    <!-- {{filterData}} -->
 
-    <div v-for="(user, index) in filterItems(postData,name) | filterBy 'Female' in 'gender' | orderBy 'first_name' " v-if="user.rating >= 0" class="member-container">
-    <!-- <div v-repeat="(user, index) in postData" class="member-container"> -->
-      <!-- <div class="image-container"><img :src="user.image" width="80px" /></div> -->
-      <div class="name-container">{{user.first_name}} - {{user.last_name}} - {{user.id}} </div>
-      <div class="tag-container">{{user.tagline}}</div>
-      <!-- <div class="city-container">{{user.first_name}}  |  {{user.city}}   |   {{user.country}}</div> -->
-      <div class="city-container"> {{centers[index]}} </div>
-      <div class="poop">
+    <div class="header"> </div>
 
-        <gmap-map :center="RenderMap(index)" :zoom="5" style="width: 400px; height: 300px" >
-          <gmap-marker
-          v-for="m in markers"
-          :position="m.position"
-          :clickable="true"
-          :draggable="true"
-          @click="center=m.position"
-          ></gmap-marker>
-        </gmap-map>
+    <div class="interface-container">
+
+      <div class="item1">
+        <input type="text" class="search-box" v-model="filterValue" placeholder="Filter">
+      </div>
+
+      <div class="item3">
+        <input type="radio" id="one" value="Male" v-model="genderFilter">
+        <label for="one">Male</label>
+        <input type="radio" id="two" value="Female" v-model="genderFilter">
+        <label for="two">Female</label>
+        <input type="radio" id="any" value="" v-model="genderFilter">
+        <label for="three">Any</label>
+        <br>
+      </div>
+
+      <div class="item2">
+        <select v-model="countryFilter">
+          <option value=""> Select a country </option>
+          <option v-for="user in sortCounries" v-bind:value="user.country">
+            {{ user.country }}
+          </option>
+        </select>
+        <!-- <span>Selected: {{ countryFilter }}</span> -->
       </div>
 
     </div>
+    <hr class="style-one">
 
+    <div class="data-container">
+
+
+      <div v-for="(user, index) in filterData" v-if="user.rating >= 0" class="member-container">
+        <!-- <div class="image-container"><img :src="user.image" width="80px" /></div> -->
+        <div class="name-container">{{user.first_name}} - {{user.last_name}} - {{user.id}} </div>
+        <div class="tag-container">{{user.tagline}}</div>
+        <!-- <div class="city-container">{{user.first_name}}  |  {{user.city}}   |   {{user.country}}</div> -->
+        <div class="city-container"> <span v-if="user.gender == 'Male'"> M </span> <span v-if="user.gender == 'Female'"> F </span> | {{user.country}} | {{user.city}}</div>
+        <!-- <div class="poop">
+
+        <gmap-map :center="RenderMap(index)" :zoom="5" style="width: 400px; height: 300px" >
+        <gmap-marker
+        v-for="m in markers"
+        :position="m.position"
+        :clickable="true"
+        :draggable="true"
+        @click="center=m.position"
+        ></gmap-marker>
+      </gmap-map>
+    </div> -->
 
   </div>
+
+</div> <!-- data-container -->
+</div> <!-- test -->
 </template>
 
 <script>
@@ -38,7 +72,12 @@ export default {
   // vars goes here
   data(){
     return{
-      name: "Mark",
+      sortAsc: true,
+      countryFilter:"",
+      userCountry:"",
+      genderFilter:"",
+      testData: [{ name: 'foo' }, { name: 'bar' }, { name: 'foobar' }, { name: 'test' }],
+      filterValue:"",
       postData: postData,
       centers:[],
       markers: [{
@@ -50,25 +89,12 @@ export default {
     }
   },
   methods: {
-    filterItems: function(users,name) {
-      return users.filter(function(user) {
-        if (user.first_name == name){
-          return user.first_name;
-        }
-        else if (name == "")
-        {
-          return user.first_name ;
-        }
-      })
-    },
-
-
     greet: function(){
       console.log("poop")
     },
 
     getCenter: function(){
-      var i;
+      let i;
       for (i = 0; i < this.postData.length ; i++) {
 
         this.centers[i] = '{"lat": ' + this.postData[i].latitude + ', "lng": ' + this.postData[i].longitude + '}';
@@ -78,10 +104,10 @@ export default {
     },
     RenderMap : function(index){
 
-      var latlong = this.centers[index];
+      let latlong = this.centers[index];
       //latlong = JSON.stringify(latlong);
       latlong = JSON.parse(latlong);
-      var latlongString = JSON.stringify(latlong);
+      let latlongString = JSON.stringify(latlong);
       console.log(latlongString + " " + index);
       //latlong = JSON.parse({lat: 18.68703, lng: 98.91939}) ;
 
@@ -90,6 +116,43 @@ export default {
 
 
     }
+  }, //end methods
+  computed: {
+    sortCounries(){
+      let result = this.postData;
+
+      result = _.sortBy(result, 'country');
+      result = _.uniqBy(result, 'country');
+
+      //  result = result.sort((a, b) => ascDesc * a.country.localeCompare(b.country));
+
+      //console.log(_.uniq(_.map(result, 'country')));
+      return result ;
+    },
+    filterData(){
+      let result = this.postData;
+      if (this.countryFilter)
+      {
+        result = result.filter(item => item.country == this.countryFilter);
+      }
+      if (this.filterValue)
+      {
+        result = result.filter(item => item.first_name.includes(this.filterValue));
+      }
+      if (this.genderFilter){
+        result = result.filter(item => item.gender == this.genderFilter) ;
+      }
+      if (this.genderFilter) {
+        result = result;
+      }
+      if (this.userCountry)
+      {
+        result = result.filter(item => item.country == this.userCountry) ;
+      }
+      return result ;
+
+    }
+
   }
 }
 
@@ -104,7 +167,38 @@ export default {
 
 <style scoped>
 
-.test{
+.header{
+width: 100% ;
+height:40px;
+background-color: #000;
+
+}
+
+.item1{
+  order: 1 ;
+  margin-bottom: 20px;
+}
+.item2{
+  order: 2 ;
+  margin-bottom: 20px;
+}
+
+.item3{
+  order: 3 ;
+  margin-bottom: 20px;
+}
+
+.interface-container{
+
+  width: 100% ;
+  display: flex;
+  /*justify-content : center;*/
+  align-content: center ;
+  flex-direction: column;
+
+}
+
+.data-container{
 
   display: flex;
   flex-direction: row;
@@ -204,7 +298,71 @@ export default {
   /*background-color: blue;*/
 }
 
-.header{
+.search-box {
+  max-width: 500px;
+  min-width: 300px;
+  display: inline-block;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  padding: 10px 20px;
+  border: 1px solid #b7b7b7;
+  -webkit-border-radius: 55px;
+  border-radius: 5px;
+  font: normal 16px/normal Arial, Helvetica, sans-serif;
+  color: rgba(0,142,198,1);
+  -o-text-overflow: clip;
+  text-overflow: clip;
+  background: rgba(252,252,252,1);
+  text-shadow: 1px 1px 0 rgba(255,255,255,0.66) ;
+  -webkit-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
+  -moz-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
+  -o-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
+  transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
+  margin-left: auto;
+  margin-right: auto ;
 
 }
+
+select {
+  height:36px;
+  max-width: 500px;
+  min-width: 340px;
+  display: inline-block;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  padding: 10px 20px;
+  border: 1px solid #b7b7b7;
+  -webkit-border-radius: 55px;
+  font: normal 16px/normal Arial, Helvetica, sans-serif;
+  color: rgba(0,142,198,1);
+  -o-text-overflow: clip;
+  text-overflow: clip;
+  background: rgba(252,252,252,1);
+  text-shadow: 1px 1px 0 rgba(255,255,255,0.66) ;
+  -webkit-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
+  -moz-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
+  -o-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
+  transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
+  margin-left: auto;
+  margin-right: auto ;
+
+}
+
+.search-box:focus{
+
+  outline: none;
+
+}
+
+hr.style-one {
+
+  border: 0;
+  height: 1px;
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
+  margin-bottom: 20px;
+}
+
+
 </style>

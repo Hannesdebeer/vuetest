@@ -2,8 +2,10 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 
 import * as VueGoogleMaps from 'vue2-google-maps';
-import Vue from 'vue'
-import App from './App'
+import Vue from 'vue' ;
+import App from './App' ;
+
+var _ = require('lodash');
 
 Vue.config.productionTip = false
 
