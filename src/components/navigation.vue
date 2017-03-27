@@ -1,8 +1,7 @@
 <template>
 
-  <div class="header">
-    <div class="navigation"> < BD APPLICATION > </div>
-    <div> fjsdanf;ldsjfla;sdjfk;asdljfl </div>
+  <div class="navigation">
+    <div class="nav"> < BD APPLICATION > </div>
   </div>
 
 </template>
@@ -22,8 +21,8 @@ export default {
 
 <style >
 
-.navigation{
-  width: 1000px; ;
+.nav{
+  width: 100%; ;
   height:40px;
   background-color: rgba(0,142,198,1);
   margin-bottom: 50px;

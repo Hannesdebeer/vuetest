@@ -1,14 +1,12 @@
 <template>
 
 
-<!-- <div class="header"> < BD APPLICATION > </div> -->
 
   <div class="test">
+  <navigation></navigation>
     {{getCenter()}}
-    {{greet()}}
-    <!-- {{filterData}} -->
 
-    <!-- <div class="header"> < BD APPLICATION > </div> -->
+    <!-- {{filterData}} -->
 
     <div class="interface-container">
 
@@ -44,7 +42,7 @@
 
       <div v-for="(user, index) in filterData" v-if="user.rating >= 0" class="member-container">
         <!-- <div class="image-container"><img :src="user.image" width="80px" /></div> -->
-        <div class="name-container">{{user.first_name}} - {{user.last_name}} - {{user.id}} </div>
+        <div class="name-container">{{user.first_name}} {{user.last_name}} - {{user.id}} </div>
         <div class="tag-container">{{user.tagline}}</div>
         <!-- <div class="city-container">{{user.first_name}}  |  {{user.city}}   |   {{user.country}}</div> -->
         <div class="city-container"> <span v-if="user.gender == 'Male'"> M </span> <span v-if="user.gender == 'Female'"> F </span> | {{user.country}} | {{user.city}}</div>
@@ -70,6 +68,7 @@
 <script>
 
 import postData from '../assets/dummy_data.json' ;
+import navigation from '../components/navigation';
 
 export default {
   // vars goes here
@@ -90,6 +89,9 @@ export default {
       }],
       showName:true,
     }
+  },
+  components: {
+    navigation
   },
   methods: {
     greet: function(){
@@ -134,11 +136,11 @@ export default {
       }
       if (this.filterValue)
       {
-        this.filterValue = _.lowerCase(this.filterValue) ;
+        let newFilterValue = _.lowerCase(this.filterValue) ;
 
         //result = (result.filter(item => item.first_name.includes(this.filterValue))) || (result.filter(item => item.last_name.includes(this.filterValue)));
         result = result.filter(item => {
-          return _.lowerCase(item.first_name).includes(this.filterValue) || _.lowerCase(item.last_name).includes(this.filterValue)
+          return _.lowerCase(item.first_name).includes(newFilterValue) || _.lowerCase(item.last_name).includes(newFilterValue) ;
         })
       }
       if (this.genderFilter){
