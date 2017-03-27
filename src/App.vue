@@ -1,20 +1,21 @@
 <template>
   <div id="app">
-    <test></test>
+    <navigation></navigation>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 
 
-import test from './components/test';
+import navigation from './components/navigation.vue';
 
 
 
 export default {
   name: 'app',
   components: {
-    test
+    navigation
   }
 }
 </script>

@@ -1,9 +1,8 @@
 <template>
 
-  <div class="navigation">
-    <div class="nav"><a href="/">Search Directory</a> <a href="/Map">Map View</a>  </div>
-  </div>
-
+  <div class="details">
+  <h1> details will go here </h1>
+</div>
 </template>
 
 <script>
@@ -17,6 +16,8 @@ export default {
 }
 </script>
 
+
+
 <style >
 
 .nav{
@@ -24,21 +25,11 @@ export default {
   height:40px;
   background-color: rgba(0,142,198,1);
   margin-bottom: 50px;
-  text-align: right !important;
+  text-align: center;
   vertical-align: middle !important;
   color: #fff ;
   line-height: 40px;
 
-}
-
-a{
-  color: #fff ;
-  text-decoration: none ;
-  margin-right: 20px;
-}
-a:hover{
-    border-bottom: 1px solid #fff;
-     padding-bottom: 0px;
 }
 
 </style>

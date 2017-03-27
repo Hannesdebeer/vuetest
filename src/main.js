@@ -3,9 +3,26 @@
 
 import * as VueGoogleMaps from 'vue2-google-maps';
 import Vue from 'vue' ;
-import App from './App' ;
+import App from './App.vue' ;
+import listView from './components/listView.vue' ;
+import details from './components/details.vue' ;
+import VueRouter from 'vue-router' ;
+
 
 var _ = require('lodash');
+
+Vue.use(VueRouter);
+
+const routes = [
+  { path: '/', component: listView },
+  { path: '/details', component: details }
+
+];
+
+const router = new VueRouter({
+  routes,
+  mode:'history',
+});
 
 Vue.config.productionTip = false ;
 
@@ -22,6 +39,7 @@ Vue.use(VueGoogleMaps, {
 
 new Vue({
   el: '#app',
+  router:router,
   template: '<App/>',
   components: { App }
 })

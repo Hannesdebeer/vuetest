@@ -1,12 +1,8 @@
 <template>
 
-
-
   <div class="test">
-  <navigation></navigation>
+  <!-- <navigation></navigation> -->
     {{getCenter()}}
-
-    <!-- {{filterData}} -->
 
     <div class="interface-container">
 
