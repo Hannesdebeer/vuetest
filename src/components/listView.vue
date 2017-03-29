@@ -36,9 +36,10 @@
     <div class="data-container">
 
 
+
       <div v-for="(user, index) in filterData" v-if="user.rating >= 0" class="member-container">
         <!-- <div class="image-container"><img :src="user.image" width="80px" /></div> -->
-        <div class="name-container">{{user.first_name}} {{user.last_name}} - {{user.id}} </div>
+        <div class="name-container"><router-link class="Rlink" :to="{path: '/details/'+user.id}" >{{user.first_name}}</router-link>{{user.first_name}} {{user.last_name}} - {{user.id}} </div>
         <div class="tag-container">{{user.tagline}}</div>
         <!-- <div class="city-container">{{user.first_name}}  |  {{user.city}}   |   {{user.country}}</div> -->
         <div class="city-container"> <span v-if="user.gender == 'Male'"> M </span> <span v-if="user.gender == 'Female'"> F </span> | {{user.country}} | {{user.city}}</div>
@@ -90,6 +91,14 @@ export default {
     navigation
   },
   methods: {
+    LinkId(index){
+       let result = this.postData;
+      // result = _.find(result, 'id');
+      // result = toString(result.id) ;
+      // console.log(toString(result));
+      console.log(JSON.stringify(result));
+      return result ;
+    },
     greet: function(){
       console.log("poop")
     },
@@ -149,6 +158,7 @@ export default {
       {
         result = result.filter(item => item.country == this.userCountry) ;
       }
+
       return result ;
 
     }
@@ -230,7 +240,7 @@ export default {
 
 .member-container:hover{
 
-  height:500px;
+  /*height:500px;*/
 }
 
 .image-container{
@@ -293,6 +303,7 @@ export default {
 }
 
 .poop{
+
   display: block;
   margin-top: 10px;
   float: left;
@@ -302,6 +313,7 @@ export default {
 }
 
 .search-box {
+
   max-width: 500px;
   min-width: 300px;
   display: inline-block;
@@ -365,6 +377,10 @@ hr.style-one {
   height: 1px;
   background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
   margin-bottom: 20px;
+}
+
+.Rlink{
+  color: #000;
 }
 
 

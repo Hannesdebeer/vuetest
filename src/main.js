@@ -15,7 +15,7 @@ Vue.use(VueRouter);
 
 const routes = [
   { path: '/', component: listView },
-  { path: '/details', component: details }
+  { path: '/details/:id', component: details }
 
 ];
 
