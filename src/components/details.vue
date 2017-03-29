@@ -12,6 +12,11 @@
         <div class="name-container">{{user.first_name}} {{user.last_name}} </div>
 
         <div class="detail-list">
+
+
+
+
+
           <div class="detail-item">
             <span class="bold"> User ID : </span> {{user.id}}
           </div>
@@ -51,7 +56,7 @@
           <div class="detail-item">
             <span class="bold"> City : </span> {{user.city}}
           </div>
-
+          
           <div class="detail-item">
             <span class="bold"> Country : </span> {{user.country}}
           </div>
@@ -76,8 +81,10 @@
             <span class="bold">Tagline :</span> {{user.tagline}}
           </div>
 
-          <div class="detail-item">
-            Comment : Seamless directional core
+          <div  class="comments" v-for="comment in user.comments">
+            <div class="detail-item">
+              <span class="bold"> {{comment.name}} </span>
+            </div>
           </div>
         </div>
       </div>
@@ -270,10 +277,10 @@ export default {
 
 @media screen and (min-width: 400px) {
 
-.map-container{
-  width: 100% ;
-  margin-bottom: 20px;
-}
+  .map-container{
+    width: 100% ;
+    margin-bottom: 20px;
+  }
 
   .image-container{
     /*display: none;*/
